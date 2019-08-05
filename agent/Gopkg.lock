@@ -10,6 +10,13 @@
   version = "v0.4.7"
 
 [[projects]]
+  digest = "1:90af0e3656731377e165d672121fa5b81c1dbcb8380fbf97f9f1226bc28d413a"
+  name = "github.com/adnxn/aws-sdk-go"
+  packages = ["service/ecs"]
+  pruneopts = "UT"
+  revision = "9ad3fb92cb115af891132a63dea7f182c32dd278"
+
+[[projects]]
   digest = "1:1a734d8f35c6917ddd7b4900c71d42aba41804972c3e464dee419117eaefd86c"
   name = "github.com/aws/aws-sdk-go"
   packages = [
@@ -482,6 +489,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/adnxn/aws-sdk-go/service/ecs",
     "github.com/aws/aws-sdk-go/aws",
     "github.com/aws/aws-sdk-go/aws/arn",
     "github.com/aws/aws-sdk-go/aws/awserr",

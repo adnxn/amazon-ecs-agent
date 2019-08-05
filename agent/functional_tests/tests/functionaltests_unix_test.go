@@ -45,6 +45,8 @@ import (
 	docker "github.com/docker/docker/client"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	test_ecs "github.com/adnxn/aws-sdk-go/service/ecs"
 )
 
 const (
@@ -58,6 +60,12 @@ const (
 )
 
 var trunkingInstancePrefixes = []string{"c5.", "m5."}
+
+func TestSwapSDK(t *testing.T) {
+	session := session.Must(session.NewSession())
+	svc := test_ecs.New(session)
+	t.Logf("Created ecs client with gpu sdk: %v", svc)
+}
 
 // TestRunManyTasks runs several tasks in short succession and expects them to
 // all run.
