@@ -64,7 +64,37 @@ var trunkingInstancePrefixes = []string{"c5.", "m5."}
 func TestSwapSDK(t *testing.T) {
 	session := session.Must(session.NewSession())
 	svc := test_ecs.New(session)
-	t.Logf("Created ecs client with gpu sdk: %v", svc)
+	t.Logf("Created ecs client with swap sdk: %v", svc)
+}
+
+func TestSwapSDKRegisterTaskDefinition(t *testing.T) {
+	session := session.Must(session.NewSessionWithOptions(session.Options{
+		Config: aws.Config{Region: aws.String("us-west-2")},
+	}))
+	svc := test_ecs.New(session)
+	t.Logf("Created ecs client with swap sdk: %v", *svc)
+
+	input := test_ecs.RegisterTaskDefinitionInput{
+		Family: aws.String("test-swap-sdk"),
+		ContainerDefinitions: []*test_ecs.ContainerDefinition{
+			{
+				Name:    aws.String("container_1"),
+				Image:   aws.String("amazonlinux:1"),
+				Command: aws.StringSlice([]string{"sh", "-c", "sleep 3600"}),
+				Memory:  aws.Int64(512),
+				LinuxParameters: *test_ecs.LinuxParameters{
+					{
+						MaxSwap:    aws.Int64("200"),
+						Swappiness: aws.Int64("100"),
+					},
+				},
+			},
+		},
+	}
+
+	output, err := svc.RegisterTaskDefinition(&input)
+	t.Logf("RegisterTaskDefinition output: %v", *output)
+	t.Logf("RegisterTaskDefinition error: %v", err)
 }
 
 // TestRunManyTasks runs several tasks in short succession and expects them to
