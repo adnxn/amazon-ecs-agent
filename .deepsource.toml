@@ -1,0 +1,9 @@
+ version = 1
+
+  [[analyzers]]
+  name = "go"
+  enabled = true
+
+    [analyzers.meta]
+    import_path = "github.com/adnxn/amazon-ecs-agent"
+    dependencies_vendored = true
